@@ -1,0 +1,16 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\\{{RegKey}}]
+"Icon"="{{escape ExePath}}"
+@="{{CtxMOText}}"
+
+[HKEY_CLASSES_ROOT\Directory\shell\\{{RegKey}}\command]
+@="\"{{escape ExePath}}\" \"%V\""
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\\{{RegKey}}]
+"Icon"="{{escape ExePath}}"
+@="{{CtxMOText}}"
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\\{{RegKey}}\command]
+@="\"{{escape ExePath}}\" \"%V\""
+
