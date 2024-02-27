@@ -17,6 +17,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 )
 
 var outPath string
@@ -42,6 +43,12 @@ func main() {
 	w.Resize(fyne.NewSize(675, 745))
 	w.SetIcon(theme.SettingsIcon())
 
+	if runtime.GOOS != "windows" {
+		warnDialog := dialog.NewInformation("unsupported os", runtime.GOOS+" is currently not supported. \nThis could lead to unexpacted behavior and the app will mostlikely not work propperly.", w)
+		warnDialog.SetDismissText("Continue anyway")
+		warnDialog.Show()
+	}
+
 	if IsAdmin() {
 		w.SetTitle(w.Title() + " [Admin]")
 
@@ -58,6 +65,9 @@ func main() {
 		entryCtxMOText.Validator = NoEmptyStringValidator
 
 		fileDialog = dialog.NewFileOpen(func(closer fyne.URIReadCloser, err error) {
+			if err != nil || closer == nil {
+				return
+			}
 			fpath, _ := Pathify(closer.URI().Path())
 			fmt.Println(fpath)
 			entryExePath.SetText(fpath)
